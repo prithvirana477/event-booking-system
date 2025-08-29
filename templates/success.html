@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Successful</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .success-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            color: #555;
+            font-size: 1.2em;
+        }
+        .button-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <h1>🎉 Booking Successful, {{ name }}!</h1>
+        <p>Thank you for your booking. Your event tickets have been confirmed.</p>
+        <p>You have booked {{ tickets }} ticket(s) for the **{{ event }}** event.</p>
+        <p>A confirmation email will be sent to **{{ email }}** shortly.</p>
+        <a href="/" class="button-link">Go to Home Page</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .booking-list {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .booking-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .no-bookings {
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('events') }}">Events</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+            <a href="{{ url_for('my_bookings') }}">My Bookings</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Signup</a>
+        {% endif %}
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </nav>
+    <div class="booking-list">
+        <h1>My Bookings</h1>
+        {% if bookings %}
+            {% for booking in bookings %}
+                <div class="booking-item">
+                    <h2>{{ booking.event }}</h2>
+                    <p><strong>Name:</strong> {{ booking.name }}</p>
+                    <p><strong>Email:</strong> {{ booking.email }}</p>
+                    <p><strong>Tickets:</strong> {{ booking.tickets }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-bookings">You have no bookings yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

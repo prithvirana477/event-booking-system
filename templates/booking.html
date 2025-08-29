@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Event</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .form-container {
+            width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('events') }}">Events</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+            <a href="{{ url_for('my_bookings') }}">My Bookings</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Signup</a>
+        {% endif %}
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </nav>
+    <div class="form-container">
+        <h1>Book an Event</h1>
+        <form method="POST" action="{{ url_for('booking') }}">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="event">Select an Event:</label>
+            <select id="event" name="event" required>
+                <option value="">--Select an event--</option>
+                {% for event in events %}
+                <option value="{{ event.name }}">{{ event.name }} - {{ event.date }} at {{ event.location }}</option>
+                {% endfor %}
+            </select>
+            <label for="tickets">Number of Tickets:</label>
+            <input type="number" id="tickets" name="tickets" required min="1">
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+</body>
+</html>

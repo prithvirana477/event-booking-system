@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* General Body Styling (optional, agar style.css mein nahi hai) */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Fallback color */
+            color: #333;
+        }
+
+        /* Navigation Bar Styling (agar style.css mein nahi hai) */
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: sticky; /* Sticky nav bar */
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+        }
+        nav a:hover {
+            color: #007BFF;
+        }
+
+        /* Hero Section for Events Page - Naya Background Image */
+        .events-hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 80vh; /* Minimum height, content ke hisaab se badhega */
+            background: url('{{ url_for('static', filename='images/hero-bg-v2.jpg') }}') no-repeat center center/cover;
+            padding: 50px 0; /* Padding for content */
+            color: white; /* Text color for readability */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .events-hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay for better text readability */
+            z-index: 0;
+        }
+
+        .events-content-wrapper {
+            position: relative;
+            z-index: 1; /* Content ko overlay ke upar lane ke liye */
+            max-width: 1000px; /* Content ki max width */
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .events-content-wrapper h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #ffffff; /* Heading white */
+        }
+
+        /* Event Grid Styling */
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin-top: 20px; /* Space from heading */
+        }
+        .event-item {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for event items */
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left; /* Text alignment */
+            color: #333; /* Event item text color */
+        }
+        .event-item h2 {
+            font-size: 1.8em;
+            color: #007BFF; /* Event name color */
+            margin-bottom: 10px;
+        }
+        .event-item p {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .event-item .button {
+            display: inline-block;
+            background-color: #28a745; /* Green button */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .event-item .button:hover {
+            background-color: #218838;
+        }
+
+        /* Footer Styling (optional, agar style.css mein nahi hai) */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            margin-top: 50px; /* Adjust as needed */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('events') }}">Events</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('admin_panel') }}">Admin Panel</a>
+            <a href="{{ url_for('my_bookings') }}">My Bookings</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Signup</a>
+        {% endif %}
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </nav>
+
+    <div class="events-hero-section">
+        <div class="events-content-wrapper">
+            <h1>Upcoming Events</h1>
+            <div class="event-grid">
+                {% for event in events %}
+                <div class="event-item">
+                    <h2>{{ event.name }}</h2>
+                    <p><strong>Date:</strong> {{ event.date }}</p>
+                    <p><strong>Location:</strong> {{ event.location }}</p>
+                    <a href="{{ url_for('booking') }}" class="button">Book Now</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Event Booking. All rights reserved.</p>
+    </footer>
+</body>
+</html>
