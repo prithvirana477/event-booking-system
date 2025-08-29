@@ -2,8 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import os
 
 app = Flask(__name__)
+# SECRET_KEY ko Environment Variable se lena sabse accha hota hai.
+# Yahan se hata kar Render par Environment Variable mein daal dein.
 app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -158,6 +161,22 @@ def contact():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+# --- Temporary Password Reset Code ---
+# Is code ko tab tak hi rakhein jab tak aap password reset na kar lein.
+@app.route('/reset-admin-password')
+def reset_password():
+    # 'pawan rana' ko apne admin username se badlein
+    user = User.query.filter_by(username='pawan rana').first()
+    if user:
+        # 'your_new_password_here' ko apne naye password se badlein
+        user.password = generate_password_hash('your_new_password_here')
+        db.session.commit()
+        return "Password reset successful!"
+    return "User not found!"
+
+# --- Temporary Password Reset Code ---
+
 
 if __name__ == '__main__':
     with app.app_context():
